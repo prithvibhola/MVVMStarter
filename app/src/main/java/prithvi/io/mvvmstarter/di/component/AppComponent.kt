@@ -8,12 +8,18 @@ import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
 import prithvi.io.mvvmstarter.MVVMApplication
+import prithvi.io.mvvmstarter.di.module.ActivityModule
+import prithvi.io.mvvmstarter.di.module.AppModule
+import prithvi.io.mvvmstarter.di.module.NetModule
 import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
     AndroidInjectionModule::class,
-    AndroidSupportInjectionModule::class
+    AndroidSupportInjectionModule::class,
+    ActivityModule::class,
+    AppModule::class,
+    NetModule::class
 ])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
