@@ -11,6 +11,7 @@ import prithvi.io.mvvmstarter.MVVMApplication
 import prithvi.io.mvvmstarter.di.module.ActivityModule
 import prithvi.io.mvvmstarter.di.module.AppModule
 import prithvi.io.mvvmstarter.di.module.NetModule
+import prithvi.io.mvvmstarter.di.module.ViewModelModule
 import javax.inject.Singleton
 
 @Singleton
@@ -19,7 +20,8 @@ import javax.inject.Singleton
     AndroidSupportInjectionModule::class,
     ActivityModule::class,
     AppModule::class,
-    NetModule::class
+    NetModule::class,
+    ViewModelModule::class
 ])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
