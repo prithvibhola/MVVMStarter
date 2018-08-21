@@ -10,6 +10,6 @@ abstract class ActivityModule {
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = [])
-    abstract fun mainActivity(): SearchActivity
+    abstract fun searchActivity(): SearchActivity
 
 }

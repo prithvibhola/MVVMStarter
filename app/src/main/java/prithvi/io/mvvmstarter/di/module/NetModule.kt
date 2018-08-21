@@ -8,11 +8,14 @@ import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import prithvi.io.mvvmstarter.data.api.Api
+import prithvi.io.mvvmstarter.utility.Constants
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
-abstract class NetModule {
+class NetModule {
 
     @Provides
     @Singleton
@@ -24,7 +27,21 @@ abstract class NetModule {
 
     @Provides
     @Singleton
-    fun provideNoAuthOkHttpClient(okHttpClientBuilder: OkHttpClient.Builder): OkHttpClient = okHttpClientBuilder.build()
+    fun provideOkHttpClientBuilder(cache: Cache) = OkHttpClient.Builder().cache(cache)
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(
+            moshi: Moshi,
+            okHttpClientBuilder: OkHttpClient.Builder
+    ): Retrofit {
+        return Retrofit.Builder()
+                .addConverterFactory(MoshiConverterFactory.create(moshi))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .baseUrl(Constants.API_BASE_URL)
+                .client(okHttpClientBuilder.build())
+                .build()
+    }
 
     @Provides
     @Singleton

@@ -1,10 +1,10 @@
 package prithvi.io.mvvmstarter.ui.githubsearch
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import prithvi.io.mvvmstarter.R
+import prithvi.io.mvvmstarter.ui.base.BaseActivity
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
