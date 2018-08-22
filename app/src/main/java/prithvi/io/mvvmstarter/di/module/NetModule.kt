@@ -27,10 +27,6 @@ class NetModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClientBuilder(cache: Cache) = OkHttpClient.Builder().cache(cache)
-
-    @Provides
-    @Singleton
     fun provideRetrofit(
             moshi: Moshi,
             okHttpClientBuilder: OkHttpClient.Builder
