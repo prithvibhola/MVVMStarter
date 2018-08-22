@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MVVM Starter</string>
+    <string name="text_search_github_user">Search github user...</string>
 </resources>
