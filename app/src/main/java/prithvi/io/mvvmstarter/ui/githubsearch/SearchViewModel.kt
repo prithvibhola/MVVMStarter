@@ -4,5 +4,4 @@ import prithvi.io.mvvmstarter.ui.base.BaseViewModel
 
 class SearchViewModel : BaseViewModel() {
 
-    
 }

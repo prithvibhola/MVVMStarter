@@ -3,6 +3,7 @@ package prithvi.io.mvvmstarter.ui.base
 import android.arch.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import prithvi.io.mvvmstarter.utility.extentions.addTo
 
 abstract class BaseViewModel : ViewModel(), HasDisposableManager {
 
@@ -15,7 +16,7 @@ abstract class BaseViewModel : ViewModel(), HasDisposableManager {
     }
 
     override fun addDisposable(disposable: Disposable) {
-        getCompositeDisposable().add(disposable)
+        disposable.addTo(compositeDisposable)
     }
 
     override fun dispose() {
