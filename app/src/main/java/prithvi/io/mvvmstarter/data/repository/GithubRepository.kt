@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class GithubRepository @Inject constructor(
-        val api: Api
+        private val api: Api
 ) {
     fun getGithubUsers(name: String): Flowable<List<GithubUser>> =
             api.getGithubUsers(name).map { it.items }.toFlowable()
