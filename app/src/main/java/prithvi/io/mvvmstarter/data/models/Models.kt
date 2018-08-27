@@ -21,7 +21,6 @@ data class GithubUser(
         @Json(name = "id") val id: Long,
         @Json(name = "node_id") val nodeId: String,
         @Json(name = "avatar_url") val avatarUrl: String,
-        @Json(name = "gravatar_id") val gravatarId: String,
         @Json(name = "url") val url: String,
         @Json(name = "html_url") val htmlUrl: String,
         @Json(name = "followers_url") val followersUrl: String,
@@ -34,6 +33,5 @@ data class GithubUser(
         @Json(name = "events_url") val eventsUrl: String,
         @Json(name = "received_events_url") val receivedEventsUrl: String,
         @Json(name = "type") val type: String,
-        @Json(name = "site_admin") val site_admin: String,
         @Json(name = "score") val score: Float
 )

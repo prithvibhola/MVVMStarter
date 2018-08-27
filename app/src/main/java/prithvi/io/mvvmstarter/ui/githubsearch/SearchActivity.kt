@@ -1,13 +1,79 @@
 package prithvi.io.mvvmstarter.ui.githubsearch
 
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_github.*
 import prithvi.io.mvvmstarter.R
+import prithvi.io.mvvmstarter.data.models.Response
 import prithvi.io.mvvmstarter.ui.base.BaseActivity
+import prithvi.io.mvvmstarter.utility.extentions.addTextWatcher
+import prithvi.io.mvvmstarter.utility.extentions.getViewModel
+import prithvi.io.mvvmstarter.utility.extentions.observe
+import prithvi.io.mvvmstarter.utility.extentions.visible
+import prithvi.io.mvvmstarter.viewmodel.ViewModelFactory
+import javax.inject.Inject
 
 class SearchActivity : BaseActivity() {
+
+    @Inject lateinit var viewModelFactory: ViewModelFactory
+
+    private lateinit var viewModel: SearchViewModel
+    private lateinit var mAdapter: SearchAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_github)
+
+        viewModel = getViewModel(SearchViewModel::class.java, viewModelFactory)
+
+        mAdapter = SearchAdapter()
+        rvGithubUsers.apply {
+            layoutManager = LinearLayoutManager(this@SearchActivity)
+            addItemDecoration(object : DividerItemDecoration(context, VERTICAL) {})
+            adapter = mAdapter
+        }
+
+        ivClear.setOnClickListener { etSearch.setText("") }
+        etSearch.addTextWatcher(
+                afterTextChange = {
+                    if (!it.isNullOrBlank() && it!!.length > 1) {
+                        viewModel.getGithubUsers(it.toString())
+                    } else {
+                        pbLoading.visible = false
+                        ivClear.visible = true
+                        rvGithubUsers.visible = false
+                    }
+                })
+
+        observe(viewModel.githubUser) {
+            it ?: return@observe
+            when (it.status) {
+                Response.Status.LOADING -> {
+                    loadingView.showContent()
+                    pbLoading.visible = true
+                    ivClear.visible = false
+                    rvGithubUsers.visible = false
+                }
+                Response.Status.SUCCESS -> {
+                    it.data ?: return@observe
+                    pbLoading.visible = false
+                    ivClear.visible = true
+                    if (it.data.isEmpty()) {
+                        loadingView.showEmpty(R.drawable.ic_hourglass_empty_black_24dp, "No user", "No user found with the name ${etSearch.text}")
+                    } else {
+                        loadingView.showContent()
+                        rvGithubUsers.visible = true
+                        mAdapter.githubUsers = it.data
+                    }
+                }
+                Response.Status.ERROR -> {
+                    loadingView.showEmpty(R.drawable.ic_search_again_black_24dp, "Not good", "Some error occurred. Please try to search again.")
+                    pbLoading.visible = false
+                    ivClear.visible = true
+                }
+            }
+        }
+
     }
 }

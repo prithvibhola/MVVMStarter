@@ -7,6 +7,7 @@ import dagger.android.AndroidInjectionModule
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
 import dagger.android.support.AndroidSupportInjectionModule
+import prithvi.io.mvvmstarter.FlavourDI
 import prithvi.io.mvvmstarter.MVVMApplication
 import prithvi.io.mvvmstarter.di.module.ActivityModule
 import prithvi.io.mvvmstarter.di.module.AppModule
@@ -21,7 +22,8 @@ import javax.inject.Singleton
     ActivityModule::class,
     AppModule::class,
     NetModule::class,
-    ViewModelModule::class
+    ViewModelModule::class,
+    FlavourDI::class
 ])
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
