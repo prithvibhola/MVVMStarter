@@ -3,6 +3,7 @@ package prithvi.io.mvvmstarter.ui.githubsearch
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.text.InputFilter
 import kotlinx.android.synthetic.main.activity_github.*
 import prithvi.io.mvvmstarter.R
 import prithvi.io.mvvmstarter.data.models.Response
@@ -35,16 +36,24 @@ class SearchActivity : BaseActivity() {
         }
 
         ivClear.setOnClickListener { etSearch.setText("") }
-        etSearch.addTextWatcher(
-                afterTextChange = {
-                    if (!it.isNullOrBlank() && it!!.length > 1) {
-                        viewModel.getGithubUsers(it.toString())
-                    } else {
-                        pbLoading.visible = false
-                        ivClear.visible = true
-                        rvGithubUsers.visible = false
-                    }
-                })
+        etSearch.apply {
+            filters = arrayOf(InputFilter { source, _, _, _, _, _ ->
+                if (source != null && source.matches("[^a-zA-Z0-9 -]".toRegex())) return@InputFilter ""
+                return@InputFilter null
+            })
+            addTextWatcher(
+                    afterTextChange = {
+                        when {
+                            !it.isNullOrBlank() && it!!.length > 1 -> viewModel.getGithubUsers(it.toString())
+                            else -> {
+                                mAdapter.githubUsers = listOf()
+                                pbLoading.visible = false
+                                ivClear.visible = true
+                                rvGithubUsers.visible = false
+                            }
+                        }
+                    })
+        }
 
         observe(viewModel.githubUser) {
             it ?: return@observe
@@ -67,7 +76,7 @@ class SearchActivity : BaseActivity() {
                         false -> {
                             loadingView.showContent()
                             rvGithubUsers.visible = true
-                            mAdapter.githubUsers = it.data
+                            mAdapter.githubUsers = if (etSearch.text.toString() != "") it.data else listOf()
                         }
                     }
                 }
