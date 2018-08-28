@@ -1,6 +1,7 @@
 package prithvi.io.mvvmstarter.data.models
 
 import com.squareup.moshi.Json
+import prithvi.io.mvvmstarter.utility.Identifiable
 
 data class Response<out T>(
         val status: Status,
@@ -34,4 +35,6 @@ data class GithubUser(
         @Json(name = "received_events_url") val receivedEventsUrl: String,
         @Json(name = "type") val type: String,
         @Json(name = "score") val score: Float
-)
+) : Identifiable {
+    override val identifier: Long get() = id
+}

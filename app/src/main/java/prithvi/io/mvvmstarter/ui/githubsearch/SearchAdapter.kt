@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.holder_github_user.view.*
 import prithvi.io.mvvmstarter.R
 import prithvi.io.mvvmstarter.data.models.GithubUser
 import prithvi.io.mvvmstarter.ui.base.BaseViewHolder
+import prithvi.io.mvvmstarter.utility.extentions.dispatchListDiff
 import prithvi.io.mvvmstarter.utility.extentions.inflate
 import prithvi.io.mvvmstarter.utility.extentions.roundOff
 
@@ -16,8 +17,9 @@ class SearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
 
     var githubUsers: List<GithubUser> = listOf()
         set(value) {
+            val diffResult = dispatchListDiff(field, value)
             field = value
-            notifyDataSetChanged()
+            diffResult.dispatchUpdatesTo(this)
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(parent.inflate(R.layout.holder_github_user))
@@ -36,14 +38,10 @@ class SearchAdapter : RecyclerView.Adapter<BaseViewHolder>() {
                 tvScore.text = user.score.roundOff()
 
                 Glide.with(context)
-                        .setDefaultRequestOptions(RequestOptions().apply {
-                            placeholder(R.color.colorGrayishLight)
-                            error(R.color.colorGrayishLight)
-                            circleCrop()
-                            centerCrop()
-                        })
-                        .asBitmap()
                         .load(user.avatarUrl)
+                        .apply(RequestOptions.circleCropTransform()
+                                .placeholder(R.color.colorGrayishLight)
+                                .error(R.color.colorGrayishLight))
                         .into(ivProfile)
             }
         }

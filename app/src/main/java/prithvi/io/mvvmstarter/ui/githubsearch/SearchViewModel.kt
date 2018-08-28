@@ -29,7 +29,7 @@ class SearchViewModel @Inject constructor(
         searchProcessor.onNext(name)
     }
 
-    fun searchGithubUsers() {
+    private fun searchGithubUsers() {
         searchProcessor
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .switchMap { repository.github.getGithubUsers(it) }

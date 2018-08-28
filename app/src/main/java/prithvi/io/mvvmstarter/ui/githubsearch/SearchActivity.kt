@@ -53,27 +53,31 @@ class SearchActivity : BaseActivity() {
                     loadingView.showContent()
                     pbLoading.visible = true
                     ivClear.visible = false
-                    rvGithubUsers.visible = false
+                    rvGithubUsers.visible = true
                 }
                 Response.Status.SUCCESS -> {
                     it.data ?: return@observe
                     pbLoading.visible = false
                     ivClear.visible = true
-                    if (it.data.isEmpty()) {
-                        loadingView.showEmpty(R.drawable.ic_hourglass_empty_black_24dp, "No user", "No user found with the name ${etSearch.text}")
-                    } else {
-                        loadingView.showContent()
-                        rvGithubUsers.visible = true
-                        mAdapter.githubUsers = it.data
+                    when (it.data.isEmpty()) {
+                        true -> {
+                            mAdapter.githubUsers = listOf()
+                            loadingView.showEmpty(R.drawable.ic_hourglass_empty_black_24dp, "No user", "No user found with the name ${etSearch.text}")
+                        }
+                        false -> {
+                            loadingView.showContent()
+                            rvGithubUsers.visible = true
+                            mAdapter.githubUsers = it.data
+                        }
                     }
                 }
                 Response.Status.ERROR -> {
                     loadingView.showEmpty(R.drawable.ic_search_again_black_24dp, "Not good", "Some error occurred. Please try to search again.")
+                    mAdapter.githubUsers = listOf()
                     pbLoading.visible = false
                     ivClear.visible = true
                 }
             }
         }
-
     }
 }
