@@ -4,20 +4,65 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
+ext {
+//    debug_key_alias = "androiddebugkey"
+//    debug_key_password = "android"
+//    debug_keystore_path = "../debug.keystore"
+//    debug_keystore_password = "android"
+//    release_key_alias = "password"
+//    release_key_password = "password"
+//    release_keystore_path = "../app/keystore.jks"
+//    release_keystore_password = "password"
+    version_code = 1
+    version_name = "1.0"
+}
+
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "prithvi.io.mvvmstarter"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0"
+        versionCode version_code
+        versionName version_name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+//    signingConfigs {
+//        debug {
+//            keyAlias debug_key_alias
+//            keyPassword debug_key_password
+//            storeFile file(debug_keystore_path)
+//            storePassword debug_keystore_password
+//        }
+//        release {
+//            keyAlias release_key_alias
+//            keyPassword release_key_password
+//            storeFile file(release_keystore_path)
+//            storePassword release_keystore_password
+//        }
+//    }
+
     buildTypes {
-        release {
+        debug {
+            multiDexEnabled true
             minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            applicationIdSuffix ".debug"
+//            signingConfig signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_BASE_URL", "\"https://api.github.com\""
+        }
+
+        release {
+            multiDexEnabled true
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+//            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_BASE_URL", "\"https://api.github.com\""
         }
     }
 

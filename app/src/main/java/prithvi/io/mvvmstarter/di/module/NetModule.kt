@@ -7,6 +7,7 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import prithvi.io.mvvmstarter.BuildConfig
 import prithvi.io.mvvmstarter.data.api.Api
 import prithvi.io.mvvmstarter.utility.Constants
 import retrofit2.Retrofit
@@ -34,7 +35,7 @@ class NetModule {
         return Retrofit.Builder()
                 .addConverterFactory(MoshiConverterFactory.create(moshi))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(Constants.API_BASE_URL)
+                .baseUrl(BuildConfig.API_BASE_URL)
                 .client(okHttpClientBuilder.build())
                 .build()
     }
