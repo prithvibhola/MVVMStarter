@@ -13,18 +13,16 @@ ext {
 //    release_key_password = "password"
 //    release_keystore_path = "../app/keystore.jks"
 //    release_keystore_password = "password"
-    version_code = 1
-    version_name = "1.0"
 }
 
 android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "prithvi.io.mvvmstarter"
-        minSdkVersion 16
-        targetSdkVersion 27
-        versionCode version_code
-        versionName version_name
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.compileSdk
+        versionCode versions.code
+        versionName versions.name
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -67,8 +65,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility versions.sourceCompat
+        targetCompatibility versions.targetCompat
     }
 }
 
@@ -76,53 +74,53 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation deps.kotlin.stdlib
+    implementation deps.kotlin.reflect
 
     // Android Support Libraries
-    implementation "com.android.support:appcompat-v7:$support_lib_version"
-    implementation "com.android.support:design:$support_lib_version"
-    implementation "com.android.support:cardview-v7:$support_lib_version"
-    implementation "com.android.support:recyclerview-v7:$support_lib_version"
-    implementation "com.android.support:support-annotations:$support_lib_version"
-    implementation "com.android.support.constraint:constraint-layout:$constraint_layout_version"
+    implementation deps.support.appcompat
+    implementation deps.support.design
+    implementation deps.support.cardview
+    implementation deps.support.recyclerview
+    implementation deps.support.annotations
+    implementation deps.others.constraint
 
     // Dagger
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation deps.google.dagger
+    kapt deps.google.compiler
+    implementation deps.google.dagger_support
+    kapt deps.google.processor
 
     // Rx
-    implementation "io.reactivex.rxjava2:rxjava:$rx_java_version"
-    implementation "io.reactivex.rxjava2:rxandroid:$rx_android_version"
-    implementation "io.reactivex.rxjava2:rxkotlin:$rx_kotlin_version"
+    implementation deps.reactivex.rxjava
+    implementation deps.reactivex.rxandroid
+    implementation deps.reactivex.rxkotlin
 
     // Retrofit and OkHttp
-    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_kotlin_version"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation deps.square.retrofit
+    implementation deps.square.moshi
+    implementation deps.square.rxjava2
+    implementation deps.square.kotlin
+    implementation deps.square.okhttp
 
     // OkHttp interceptors
-    implementation "com.jakewharton.timber:timber:$timber_version"
-    debugImplementation "com.facebook.stetho:stetho:$stetho_version"
-    debugImplementation "com.facebook.stetho:stetho-okhttp3:$stetho_version"
-    debugImplementation "com.readystatesoftware.chuck:library:$chuck_version"
+    debugImplementation deps.facebook.stetho
+    debugImplementation deps.facebook.okhttp3
+    debugImplementation deps.others.chuck
 
     // Android Architecture Component
-    implementation "android.arch.lifecycle:extensions:$android_arch_version"
-    implementation "android.arch.lifecycle:viewmodel:$android_arch_version"
-    implementation "android.arch.lifecycle:livedata:$android_arch_version"
-    implementation "android.arch.lifecycle:common-java8:$android_arch_version"
-    implementation "android.arch.lifecycle:reactivestreams:$android_arch_version"
+    implementation deps.androidarch.extensions
+    implementation deps.androidarch.viewmodel
+    implementation deps.androidarch.livedata
+    implementation deps.androidarch.common
+    implementation deps.androidarch.reactivestreams
 
     // Others
-    implementation 'com.github.bumptech.glide:glide:4.7.1'
-    implementation 'com.github.vlonjatg:progress-activity:2.0.5'
+    implementation deps.square.timber
+    implementation deps.others.glide
+    implementation deps.others.progress
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation deps.test.junit
+    androidTestImplementation deps.test.runner
+    androidTestImplementation deps.test.espresso
 }
