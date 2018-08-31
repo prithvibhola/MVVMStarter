@@ -1,7 +1,7 @@
 # Android Kotlin MVVM Starter
 > MVVM Boilerplate to start the project without having it to create from scratch.
 
-![ScreenShot](/screenshots/Screenshot_1535531036.png){:height="80%" width="50%"}
+![ScreenShot](/screenshots/Screenshot_1535531036.png){:.element width="200px"}
 
 # Project uses:
 - [Koltin]()
